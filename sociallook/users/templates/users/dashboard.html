@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+
+{% load static %}
+
+{% block title %}
+
+<title>Dashboard</title>
+{% endblock title %}
+
+{% block content %}
+
+{% include 'core/nav.html' with p=username %}
+
+
+{% if user %}
+
+
+{% for i in user  %}
+<div class="container mt-2 text-center">
+
+
+{% if i.userimg == 'False' %}
+
+<img src="{% static 'users/img/bk.svg' %}" alt="" style="width: 250px; height: 250px; ">
+
+   
+
+
+
+
+{% else %}
+
+<img src="{{ i.userimg.url }}" alt="" class="img-fluid text-center" style="width: 250px; height: 250px; ">
+
+{% endif %}
+</div>
+
+
+<div class="container text-center">
+    <h3 class="text-success text-center display-4">{{i.name | capfirst}}</h3>
+
+    <p><b  class='mx-2'>  <a href="{% url 'followlist' %}" class="text-dark"> Following : {{follow}}</a></b> <b class='mx-2'> <a href="{% url 'followerlist' %}" class="text-dark"> Followers : {{followers}}</a></b> <b class='mx-2'> <a href="{% url 'post' %}" class="text-dark">Posts : {{total}}</a> </b> </p>
+
+<hr class="text-success">
+
+
+<div class="row">
+    <div class="col-sm-6 alert alert-light">
+    <p><b><a href="mailto:{{i.email}}" class='text-success'>{{i.email}}</a></b></p>
+
+    <p><b>{{i.gender | capfirst}}</b></p>
+    </div>
+
+    <div class="col-sm-6 alert alert-success">
+        <p>
+            <b>
+                {{i.address}}
+            </b>
+        </p>
+    </div>
+</div>
+
+<div class="text-center container mt-2">
+
+    <a href="{% url 'editinfo' id=i.id %}" class="btn btn-outline-success">Edit Information <i class="fas fa-edit"></i></a>
+    <a href="{% url 'editimage' id=i.id %}" class="btn btn-outline-primary">Edit Profile Picture <i class="fas fa-image"></i></a>
+
+</div>
+</div>
+
+{% endfor %}
+
+
+{% else %}
+
+<h1 class="text-success text-center">Something Wrong happened !!!!</h1>
+{% endif %}
+
+
+{% include 'core/footer.html' %}
+
+{% endblock content %}
